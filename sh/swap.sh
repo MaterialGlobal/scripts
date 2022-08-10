@@ -1,4 +1,10 @@
 #!/bin/bash
+
+if [ "$EUID" -ne 0 ]
+  then echo "Please run this script as root."
+  exit
+fi
+
 if [ -z $1 ]; then
 echo "specify swap size (for example, 4G for 4GB of swap space)"
 else
