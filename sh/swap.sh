@@ -6,17 +6,16 @@ if [ "$EUID" -ne 0 ]
 fi
 
 if [ -z $1 ]; then
-echo "specify swap size (for example, 4G for 4GB of swap space)"
+  echo "Specify swap size (for example, 4G for 4GB of swap space)."
 else
-swapoff -a
-fallocate -l $1 /swapfile
-chmod 600 /swapfile
-mkswap /swapfile
-swapon /swapfile
-fi
+  swapoff -a
+  fallocate -l $1 /swapfile
+  chmod 600 /swapfile
+  mkswap /swapfile
+  swapon /swapfile
 
-if [ ! -z $2 ]; then
-if [ $2 == yes ]; then
-echo '/swapfile none swap sw 0 0' | sudo tee -a /etc/fstab
-fi
+  # add fstab entry
+  echo '/swapfile none swap sw 0 0' | sudo tee -a /etc/fstab
+  # remove duplicate entries
+  perl -i -ne 'print if ! $x{$_}++' /etc/stab
 fi
